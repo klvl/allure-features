@@ -1,2 +1,9 @@
 # IDEA
 .idea
+
+# Build
+target
+
+# Allure
+allure-results
+allure-report
