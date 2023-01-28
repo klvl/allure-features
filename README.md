@@ -10,6 +10,7 @@ file describes how to use this features separately from this project. Follow
 * [Allure CLI commands](#allure-cli-commands)
 * [Specify output directory for allure-results](#specify-output-directory-for-allure-results)
 * [Remove allure-report folder](#remove-allure-report-folder)
+* [Descriptive names](#descriptive-names)
 
 
 ## Prerequisites
@@ -78,7 +79,7 @@ import org.testng.annotations.Test;
 public class SimpleTest {
 
     @Test
-    public void simpleTest() {
+    public void testSimple() {
         doFirstTestStep();
         doSecondTestStep();
     }
@@ -192,3 +193,106 @@ mvn allure generate target/allure-results/
 ```shell
 mvn clean
 ```
+
+
+## Descriptive names
+
+By default, the Allure report displays step names or test names as a method name for where annotation is applied to.
+There is a possibility to set more descriptive names in Allure report.
+
+### Descriptive test actions names   
+
+To make name descriptive in Allure report, add a `description` parameter to annotation: 
+```java
+import org.testng.annotations.Test;
+
+public class DescriptiveNameTest {
+    
+    @Test(description = "As allure user I can set descriptive name for my test")
+    public void testDescriptiveName() {
+        
+    }
+}
+```
+
+The approach is the same for the following annotations:
+* AfterClass
+* AfterGroups
+* AfterMethod
+* AfterSuite
+* AfterTest
+* BeforeClass
+* BeforeGroups
+* BeforeMethod
+* BeforeSuite
+* BeforeTest
+* Test
+
+See `io.klvl.DescriptiveNamesTest` test class for examples.
+
+### Descriptive steps names 
+
+To provide test steps with descriptive name in Allure report is different:
+```java
+import io.qameta.allure.Step;
+
+public class DescriptiveNamesTest {
+
+    @Step("Perform the first step")
+    public void firstStep() {
+        // you code here
+    }
+
+    @Step("Perform the second step")
+    public void secondStep() {
+        // you code here
+    }
+}
+```
+
+### Tests breakdown
+
+Sometimes we want to split our test by different epics, features and stories. The allure report includes functionality
+to achieve it, but first, let's review an example.
+
+Imagine you test authorization in your system. It is possible to sign up and sign in. There is a possibility to 
+authorize using regular login and password or, using your Google account. Finally, there are different cases to test, 
+e.g. sign up/sign in with valid credentials, sign up/sign in with invalid credentials and so on and so forth. 
+So, let's pick up a `Sign in` flow and try to split it by different levels:
+1. Authorization — it is a top level, and it is called `Epic`  
+2. Sign in — it is a `Feature`  
+3. Sign in with login and password(credentials) — it is a `Story`  
+4. Sign in with valid/invalid credentials — `Test` cases
+
+You can mark your test class with corresponding annotations(`@Epic`, `@Feature`, `@Story`) and it will be grouped in 
+allure report correspondingly. You will be able to find it on the first `Owerview` page in the `Features by stories` 
+section. It might help to find necessary tests faster and will simplify reading of your report for a stakeholders.
+
+See `io.klvl.breakdown.authorization` package for examples.
+
+
+**Multiple features and stories**
+
+Sometimes it is required to map your test class to multiple features and/or stories. It is possible to achieve it, by
+adding `@Features` and/or `@Stories` annotation to a test class. For example:
+```java
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Features;
+import io.qameta.allure.Story;
+
+@Epic("Some epic name")
+@Features({
+        @Feature("The first feature name"),
+        @Feature("The second feature name"),
+})
+@Story("Some story name")
+public class MultipleFeaturesTest {
+}
+```
+
+See `io.klvl.MultipleFeaturesTest` and `io.klvl.MultipleStoriesTest` for examples.
+
+
+Please, note that all annotations(`@Epic`, `@Feature`/`@Features`, `@Story`/`@Stories`) can be applied on a test method
+level, not only on a test class.
