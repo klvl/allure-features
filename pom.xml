@@ -16,6 +16,7 @@
         <allure-testng.version>2.20.1</allure-testng.version>
         <aspectj.version>1.9.19</aspectj.version>
         <maven-surefire-plugin.version>3.0.0-M8</maven-surefire-plugin.version>
+        <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
     </properties>
 
     <dependencies>
@@ -52,6 +53,17 @@
                         <version>${aspectj.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${maven-clean-plugin.version}</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>allure-report</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
             </plugin>
         </plugins>
     </build>

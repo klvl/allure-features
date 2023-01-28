@@ -25,44 +25,44 @@ file describes how to use this features separately from this project. Follow
 [testng](https://mvnrepository.com/artifact/org.testng/testng) and 
 [maven-surefire-plugin](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin) 
 dependencies to pom.xml  
-    ```xml
-    <dependencies>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-testng</artifactId>
-            <version>${allure-testng.version}</version>
-        </dependency>
-    </dependencies>
-    ```
+```xml
+<dependencies>
+  <dependency>
+    <groupId>org.testng</groupId>
+    <artifactId>testng</artifactId>
+    <version>${testng.version}</version>
+  </dependency>
+  <dependency>
+    <groupId>io.qameta.allure</groupId>
+    <artifactId>allure-testng</artifactId>
+    <version>${allure-testng.version}</version>
+  </dependency>
+</dependencies>
+```
 * Configure aspectj in build section, maven-surefire-plugin, so steps will be displayed in report 
-    ```xml
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-                <configuration>
-                    <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                    </argLine>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-        </plugins>
-    </build>
-    ```
+```xml
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>${maven-surefire-plugin.version}</version>
+      <configuration>
+        <argLine>
+          -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+        </argLine>
+      </configuration>
+      <dependencies>
+        <dependency>
+          <groupId>org.aspectj</groupId>
+          <artifactId>aspectjweaver</artifactId>
+          <version>${aspectj.version}</version>
+        </dependency>
+      </dependencies>
+    </plugin>
+  </plugins>
+</build>    
+```
 * Add a simple test  
 ```java
 import io.qameta.allure.Step;
@@ -153,4 +153,35 @@ demonstrate how to change the default location.
 **Option #2: via maven command line option**
 ```shell
 mvn test -Dtest="SimpleTest#simpleTest" -Dallure.report.directory="target/allure-results/"
+```
+
+
+## Remove allure-report folder  
+
+There is an option to remove `allure-report` folder by running `mvn clean` command along with other build files:
+* Add [mvn-clean-plugin](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-clean-plugin) to pom.xml
+```xml
+<build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>${maven-clean-plugin.version}</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>allure-report</directory>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+  </plugins>
+</build>
+```
+* Generate allure report  
+```shell
+mvn allure generate target/allure-results/
+```
+* Clean up working directory  
+```shell
+mvn clean
 ```
