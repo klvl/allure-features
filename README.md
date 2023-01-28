@@ -37,11 +37,6 @@ dependencies to pom.xml
             <artifactId>allure-testng</artifactId>
             <version>${allure-testng.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>${maven-surefire-plugin.version}</version>
-        </dependency>
     </dependencies>
     ```
 * Configure aspectj in build section, maven-surefire-plugin, so steps will be displayed in report 
@@ -128,4 +123,34 @@ allure open
 * Generate allure-report in temp directory and open allure report  
 ```shell
 allure serve
+```
+
+
+## Specify output directory for allure-results
+
+By default, the `allure-results` directory is generated to the project root directory. There are cases when you may want
+to change the default location of the `allure-results`. In the examples below, the project build directory is used to 
+demonstrate how to change the default location.
+
+**Option #1: via maven configuration property**  
+```xml
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>${maven-surefire-plugin.version}</version>
+      <configuration>
+        <systemPropertyVariables>
+          <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+        </systemPropertyVariables>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+```
+
+**Option #2: via maven command line option**
+```shell
+mvn test -Dtest="SimpleTest#simpleTest" -Dallure.report.directory="target/allure-results/"
 ```
