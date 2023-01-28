@@ -4,18 +4,25 @@ This module contains examples of [allure-report](https://github.com/allure-frame
 file describes how to use this features separately from this project. Follow 
 [official documentation](https://docs.qameta.io/allure/) for more details.
 
+**Outline:**
+* [Prerequisites](#prerequisites)
+* [Quick start](#quick-start)
+* [Allure CLI commands](#allure-cli-commands)
+* [Specify output directory for allure-results](#specify-output-directory-for-allure-results)
+* [Remove allure-report folder](#remove-allure-report-folder)
+
+
 ## Prerequisites
 * Java 17  
 * Maven 3.+  
-* Allure commandline    
-  * Using brew
-    ```shell
-    brew install allure
-    ```
-  * Using npm
-    ```shell
-    npm install -g allure-commandline --save-dev
-    ```
+* Allure commandline
+```shell
+brew install allure
+```
+or
+```shell
+npm install -g allure-commandline --save-dev
+```
 
 ## Quick start
 
