@@ -11,6 +11,7 @@ file describes how to use this features separately from this project. Follow
 * [Specify output directory for allure-results](#specify-output-directory-for-allure-results)
 * [Remove allure-report folder](#remove-allure-report-folder)
 * [Descriptive names](#descriptive-names)
+* [Steps](#steps)
 
 
 ## Prerequisites
@@ -296,3 +297,54 @@ See `io.klvl.MultipleFeaturesTest` and `io.klvl.MultipleStoriesTest` for example
 
 Please, note that all annotations(`@Epic`, `@Feature`/`@Features`, `@Story`/`@Stories`) can be applied on a test method
 level, not only on a test class.
+
+
+## Steps
+
+### Parametrized step
+
+It is possible to display parameter, passed to step method, in step name. For example:
+```java
+import io.qameta.allure.Step;
+import org.testng.annotations.Test;
+
+public class ParametrizedStepTest {
+    
+    @Test
+    public void testParametrizedSepName() {
+        stepParametrizedByName("email@example.com", "qwerty123456");
+    }
+    
+    @Step("This is email: {email} parameter, and this is password: {password}")
+    public void stepParametrizedByName(String email, String password) {
+        // your code here
+    }
+    
+}
+```
+
+See `io.klvl.ParametrizedStepTest` for examples.
+
+### Step as lambda function
+
+Sometimes we want to group test steps into a single step, but we don't want put it in a separate method:
+```java
+import org.testng.annotations.Test;
+
+import static io.qameta.allure.Allure.step;
+
+public class StepAsLambdaTest {
+
+    @Test
+    public void testStepAsLambda() {
+        step("Sign in", () -> {
+            openLoginPage();
+            typeEmail();
+            typePassword();
+            clickLoginButton();
+        });
+    }
+}
+```
+
+See `io.klvl.StepAsLambdaTest` for examples.
