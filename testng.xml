@@ -1,0 +1,22 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Regression test suite" verbose="1" >
+    <test name="Allure lifecycle">
+        <packages>
+            <package name="io.klvl.allurelifecycle"/>
+        </packages>
+    </test>
+    <test name="Breakdown">
+        <packages>
+            <package name="io.klvl.breakdown"/>
+            <package name="io.klvl.breakdown.authorization"/>
+        </packages>
+    </test>
+    <test name="Other cases">
+        <classes>
+            <class name="io.klvl.DescriptiveNamesTest"/>
+            <class name="io.klvl.ParametrizedStepTest"/>
+            <class name="io.klvl.SeverityTest"/>
+            <class name="io.klvl.SimpleTest"/>
+        </classes>
+    </test>
+</suite>

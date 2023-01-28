@@ -292,6 +292,26 @@ See `io.klvl.MultipleFeaturesTest` and `io.klvl.MultipleStoriesTest` for example
 Please, note that all annotations(`@Epic`, `@Feature`/`@Features`, `@Story`/`@Stories`) can be applied on a test method
 level, not only on a test class.
 
+#### Suite name
+
+By default, all tests are displayed under `Default suite`. The TestNG suites should be used to change it.
+
+* Create testng.xml file and add suite name
+```xml
+<suite name="My test suite name" verbose="1" >
+  ...
+</suite>
+```
+* Add tests to a suite(see `testng.xml` file in a root directory of the project)
+* Run this suite
+```shell
+mvn test -DsuiteXmlFile=testng.xml
+```
+* Enjoy report with suite
+```shell
+allure serve target/allure-results
+```
+
 #### Dynamic tests breakdown
 
 Follow [Allure lifecycle/Tests breakdown](#tests-breakdown-1) section for details.
