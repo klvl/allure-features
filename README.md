@@ -17,6 +17,8 @@ file describes how to use this features separately from this project. Follow
   * [Tests breakdown](#tests-breakdown)
   * [Test actions names](#test-actions-names)
   * [Step names](#step-names)
+* [Additional test information](#additional-test-information)
+  * [Severity](#severity)
 * [Allure lifecycle](#allure-lifecycle)
   * [Tests breakdown](#tests-breakdown-1)
   * [Steps](#steps)
@@ -375,6 +377,42 @@ See `io.klvl.ParametrizedStepTest` for examples.
 #### Step as lambda function
 
 Follow [Allure lifecycle/Tests breakdown](#steps) section for details.
+
+
+
+
+## Additional test information
+
+This section describes possibilities for adding additional information about a test to Allure report.
+
+
+### Severity
+
+The test can have is severity and can be displayed in a report:
+```java
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import org.testng.annotations.Test;
+
+public class SeverityTest {
+    
+    @Test
+    @Severity(SeverityLevel.TRIVIAL)
+    public void testTrivialSeverity() {
+        // your code here
+    }
+    
+}
+```
+
+The Allure report has the following list of severities:
+* TRIVIAL 
+* MINOR 
+* NORMAL 
+* CRITICAL 
+* BLOCKER
+
+See `io.klvl.SeverityTest` for examples.
 
 
 
