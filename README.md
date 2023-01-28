@@ -7,24 +7,29 @@ file describes how to use this features separately from this project. Follow
 **Outline:**
 * [Prerequisites](#prerequisites)
 * [Quick start](#quick-start)
-* [Allure CLI commands](#allure-cli-commands)
-* [Specify output directory for allure-results](#specify-output-directory-for-allure-results)
-* [Remove allure-report folder](#remove-allure-report-folder)
+* [Allure CLI](#allure-cli)
+  * [Installation](#installation)
+  * [Commands](#commands)
+* [Manage allure folders](#manage-allure-folders)
+  * [Specify the output directory for allure-results](#specify-the-output-directory-for-allure-results)
+  * [Cleanup allure folders](#cleanup-allure-folders)
 * [Descriptive names](#descriptive-names)
-* [Steps](#steps)
+  * [Test actions names](#test-actions-names)
+  * [Step names](#step-names)
+  * [Tests breakdown](#tests-breakdown)
+
+
 
 
 ## Prerequisites
 * Java 17  
 * Maven 3.+  
-* Allure commandline
-```shell
-brew install allure
-```
-or
-```shell
-npm install -g allure-commandline --save-dev
-```
+* Allure commandline(CLI) 
+
+Follow [Allure CLI/Installation](#installation) for installation instructions.
+
+
+
 
 ## Quick start
 
@@ -107,7 +112,26 @@ allure serve
 ```
 
 
-## Allure CLI commands
+
+
+## Allure CLI
+
+The Allure report has an allure-command line tool for allure report generation.
+
+
+### Installation
+
+* Using brew on macOS  
+```shell
+brew install allure
+```
+* Using npm  
+```shell
+npm install -g allure-commandline --save-dev
+```
+
+
+### Commands
 
 * Describe available commands  
 ```shell
@@ -135,13 +159,22 @@ allure serve
 ```
 
 
-## Specify output directory for allure-results
+
+
+## Manage allure folders
+
+The Allure report generates to folders `allure-results` and `allure-report`. Generally, we don't want to commit these
+folders, and we put it to a `.gitignore` file. Therefore, we might also want to remove these folders using `mvn clean`.
+The sections below, describe how to do it gently.
+
+
+### Specify the output directory for allure-results
 
 By default, the `allure-results` directory is generated to the project root directory. There are cases when you may want
 to change the default location of the `allure-results`. In the examples below, the project build directory is used to 
 demonstrate how to change the default location.
 
-**Option #1: via maven configuration property**  
+**Maven configuration property**  
 ```xml
 <build>
   <plugins>
@@ -159,13 +192,13 @@ demonstrate how to change the default location.
 </build>
 ```
 
-**Option #2: via maven command line option**
+**Maven command line option**
 ```shell
 mvn test -Dtest="SimpleTest#simpleTest" -Dallure.report.directory="target/allure-results/"
 ```
 
 
-## Remove allure-report folder  
+### Cleanup allure folders  
 
 There is an option to remove `allure-report` folder by running `mvn clean` command along with other build files:
 * Add [mvn-clean-plugin](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-clean-plugin) to pom.xml
@@ -195,13 +228,20 @@ mvn allure generate target/allure-results/
 mvn clean
 ```
 
+The same approach can be applied to `allure-results` folder. 
+But if you [specified](#specify-the-output-directory-for-allure-results) the `allure-results` output directory as 
+project build one, it is not required, because project build directory is cleaned up after `mvn clean` by default.
+
+
+
 
 ## Descriptive names
 
 By default, the Allure report displays step names or test names as a method name for where annotation is applied to.
 There is a possibility to set more descriptive names in Allure report.
 
-### Descriptive test actions names   
+
+### Test actions names   
 
 To make name descriptive in Allure report, add a `description` parameter to annotation: 
 ```java
@@ -231,9 +271,12 @@ The approach is the same for the following annotations:
 
 See `io.klvl.DescriptiveNamesTest` test class for examples.
 
-### Descriptive steps names 
 
-To provide test steps with descriptive name in Allure report is different:
+### Step names 
+
+**Basic usage**
+
+To add descriptive name for a step, just pass string to a Step annotation:
 ```java
 import io.qameta.allure.Step;
 
@@ -250,6 +293,57 @@ public class DescriptiveNamesTest {
     }
 }
 ```
+
+
+**Parametrized step**
+
+It is possible to display parameter, passed to step method, in step name:
+```java
+import io.qameta.allure.Step;
+import org.testng.annotations.Test;
+
+public class ParametrizedStepTest {
+    
+    @Test
+    public void testParametrizedSepName() {
+        stepParametrizedByName("email@example.com", "qwerty123456");
+    }
+    
+    @Step("This is email: {email} parameter, and this is password: {password}")
+    public void stepParametrizedByName(String email, String password) {
+        // your code here
+    }
+    
+}
+```
+
+See `io.klvl.ParametrizedStepTest` for examples.
+
+
+**Step as lambda function:**
+
+Sometimes we want to group test steps into a single step, but we don't want put it in a separate method:
+```java
+import org.testng.annotations.Test;
+
+import static io.qameta.allure.Allure.step;
+
+public class StepAsLambdaTest {
+
+    @Test
+    public void testStepAsLambda() {
+        step("Sign in", () -> {
+            openLoginPage();
+            typeEmail();
+            typePassword();
+            clickLoginButton();
+        });
+    }
+}
+```
+
+See `io.klvl.StepAsLambdaTest` for examples.
+
 
 ### Tests breakdown
 
@@ -297,54 +391,3 @@ See `io.klvl.MultipleFeaturesTest` and `io.klvl.MultipleStoriesTest` for example
 
 Please, note that all annotations(`@Epic`, `@Feature`/`@Features`, `@Story`/`@Stories`) can be applied on a test method
 level, not only on a test class.
-
-
-## Steps
-
-### Parametrized step
-
-It is possible to display parameter, passed to step method, in step name. For example:
-```java
-import io.qameta.allure.Step;
-import org.testng.annotations.Test;
-
-public class ParametrizedStepTest {
-    
-    @Test
-    public void testParametrizedSepName() {
-        stepParametrizedByName("email@example.com", "qwerty123456");
-    }
-    
-    @Step("This is email: {email} parameter, and this is password: {password}")
-    public void stepParametrizedByName(String email, String password) {
-        // your code here
-    }
-    
-}
-```
-
-See `io.klvl.ParametrizedStepTest` for examples.
-
-### Step as lambda function
-
-Sometimes we want to group test steps into a single step, but we don't want put it in a separate method:
-```java
-import org.testng.annotations.Test;
-
-import static io.qameta.allure.Allure.step;
-
-public class StepAsLambdaTest {
-
-    @Test
-    public void testStepAsLambda() {
-        step("Sign in", () -> {
-            openLoginPage();
-            typeEmail();
-            typePassword();
-            clickLoginButton();
-        });
-    }
-}
-```
-
-See `io.klvl.StepAsLambdaTest` for examples.
