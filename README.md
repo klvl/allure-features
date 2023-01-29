@@ -10,9 +10,10 @@ file describes how to use this features separately from this project. Follow
 * [Allure CLI](#allure-cli)
   * [Installation](#installation)
   * [Commands](#commands)
-* [Manage allure folders](#manage-allure-folders)
-  * [Specify the output directory for allure-results](#specify-the-output-directory-for-allure-results)
-  * [Cleanup allure folders](#cleanup-allure-folders)
+* [Allure properties](#allure-properties)
+  * [Allure properties file](#allure-properties-file)
+  * [Configuration in pom.xml](#configuration-in-pomxml)
+  * [Command-line option](#command-line-option)
 * [Descriptive names](#descriptive-names)
   * [Tests breakdown](#tests-breakdown)
   * [Test actions names](#test-actions-names)
@@ -167,27 +168,47 @@ allure serve
 
 
 
-## Manage allure folders
+## Allure properties
 
-The Allure report generates to folders `allure-results` and `allure-report`. Generally, we don't want to commit these
-folders, and we put it to a `.gitignore` file. Therefore, we might also want to remove these folders using `mvn clean`.
-The sections below, describe how to do it gently.
+The allure allows to configure the following properties:
+* The `allure-results` directory
+* The Issue link pattern
+* The Tms link pattern
+
+It is possible to configure it using `allure.properties` file or configuration property in maven-surefire-plugin, or
+passing configuration property as command line option.
 
 
-### Specify the output directory for allure-results
+### Allure properties file
 
-By default, the `allure-results` directory is generated to the project root directory. There are cases when you may want
-to change the default location of the `allure-results`. In the examples below, the project build directory is used to 
-demonstrate how to change the default location.
+To use Allure properties:
+* Create a file with the `allure.properties` name, in the `src/test/resources` directory
+```properties
+allure.results.directory=target/allure-results
+allure.link.issue.pattern=https://atlassian.jira.com/issue/{}
+allure.link.tms.pattern=https://atlassian.jira.com/{}
+```
+* Run test
+```shell
+mvn clean test
+```
+* Generate report
+```shell
+allure serve target/allure-results
+```
 
-#### Maven configuration property  
+
+### Configuration in pom.xml
+
+To use configuration in pom.xml:
+* Add property to pom.xml
 ```xml
 <build>
   <plugins>
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-surefire-plugin</artifactId>
-      <version>${maven-surefire-plugin.version}</version>
+     __ <version>${maven-surefire-plugin.version}</version>
       <configuration>
         <systemPropertyVariables>
           <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
@@ -197,48 +218,27 @@ demonstrate how to change the default location.
   </plugins>
 </build>
 ```
+* Run test
+```shell
+mvn clean test
+```
+* Generate report
+```shell
+allure serve target/allure-results
+```
 
-#### Maven command line option
+
+### Command line option
+
+To use property via command line:
+* Run test
 ```shell
 mvn test -Dtest="SimpleTest#simpleTest" -Dallure.report.directory="target/allure-results/"
 ```
-
-
-### Cleanup allure folders  
-
-There is an option to remove `allure-report` folder by running `mvn clean` command along with other build files:
-* Add [mvn-clean-plugin](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-clean-plugin) to pom.xml
-```xml
-<build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <version>${maven-clean-plugin.version}</version>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>allure-report</directory>
-            </fileset>
-          </filesets>
-        </configuration>
-      </plugin>
-  </plugins>
-</build>
-```
-* Generate allure report  
+* Generate report
 ```shell
-mvn allure generate target/allure-results/
+allure serve target/allure-results
 ```
-* Clean up working directory  
-```shell
-mvn clean
-```
-
-The same approach can be applied to `allure-results` folder. 
-But if you [specified](#specify-the-output-directory-for-allure-results) the `allure-results` output directory as 
-project build one, it is not required, because project build directory is cleaned up after `mvn clean` by default.
-
-
 
 
 ## Descriptive names
@@ -482,27 +482,9 @@ public class IssueTest {
 
 #### Issue pattern
 
-If the only one bug-tracking system is used, a good idea would be to add `allure.link.issue.pattern` property to your 
-pom.xml:
-```xml
-<build>
-  <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-surefire-plugin</artifactId>
-      <version>${maven-surefire-plugin.version}</version>
-      <configuration>
-        <systemPropertyVariables>
-          <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
-          <allure.link.issue.pattern>https://atlassian.jira.com/{}</allure.link.issue.pattern>
-        </systemPropertyVariables>
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
-```
-
-So, it will be possible to mark test methods with the `@Issue` annotation like the following:
+To use issue link pattern:
+* Follow [Allure properties](#allure-properties) section to configure link pattern  
+* Make test methods with the `@Issue` annotation
 ```java
 package io.klvl;
 

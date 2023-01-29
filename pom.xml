@@ -44,7 +44,8 @@
                     </argLine>
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
-                        <allure.link.issue.pattern>https://atlassian.jira.com/{}</allure.link.issue.pattern>
+                        <allure.link.issue.pattern>https://atlassian.jira.com/issue/{}</allure.link.issue.pattern>
+                        <allure.link.tms.pattern>=https://atlassian.jira.com/{}</allure.link.tms.pattern>
                     </systemPropertyVariables>
                 </configuration>
                 <dependencies>
