@@ -19,9 +19,11 @@ file describes how to use this features separately from this project. Follow
   * [Step names](#step-names)
 * [Additional test information](#additional-test-information)
   * [Severity](#severity)
+  * [Issue](#issue)
 * [Allure lifecycle](#allure-lifecycle)
   * [Tests breakdown](#tests-breakdown-1)
   * [Steps](#steps)
+  * [Additional test information](#additional-test-information-1)
 
 
 
@@ -84,8 +86,7 @@ dependencies to pom.xml
 ```
 * Add a simple test  
 ```java
-import io.qameta.allure.Step;
-import org.testng.annotations.Test;
+package io.klvl;
 
 public class SimpleTest {
 
@@ -265,18 +266,29 @@ You can mark your test class with corresponding annotations(`@Epic`, `@Feature`,
 allure report correspondingly. You will be able to find it on the first `Owerview` page in the `Features by stories` 
 section. It might help to find necessary tests faster and will simplify reading of your report for a stakeholders.
 
-See `io.klvl.breakdown.authorization` package for examples.
+```java
+package io.klvl.breakdown.auhthorization;
+
+@Epic("Authorization")
+@Feature("Sign in")
+@Story("Sign in with credentials")
+public class SignInWithCredentialsTest {
+
+  @Test
+  public void testSignInWithValidCredentials() {
+    // your code here
+  }
+
+}
+```
 
 #### Multiple features and stories
 
 Sometimes it is required to map your test class to multiple features and/or stories. It is possible to achieve it, by
 adding `@Features` and/or `@Stories` annotation to a test class. For example:
 ```java
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Features;
-import io.qameta.allure.Story;
-
+package io.klvl.breakdown;
+        
 @Epic("Some epic name")
 @Features({
         @Feature("The first feature name"),
@@ -286,8 +298,6 @@ import io.qameta.allure.Story;
 public class MultipleFeaturesTest {
 }
 ```
-
-See `io.klvl.MultipleFeaturesTest` and `io.klvl.MultipleStoriesTest` for examples.
 
 Please, note that all annotations(`@Epic`, `@Feature`/`@Features`, `@Story`/`@Stories`) can be applied on a test method
 level, not only on a test class.
@@ -321,7 +331,7 @@ Follow [Allure lifecycle/Tests breakdown](#tests-breakdown-1) section for detail
 
 To make name descriptive in Allure report, add a `description` parameter to annotation:
 ```java
-import org.testng.annotations.Test;
+package io.klvl;
 
 public class DescriptiveNameTest {
     
@@ -345,8 +355,6 @@ The approach is the same for the following annotations:
 * BeforeTest
 * Test
 
-See `io.klvl.DescriptiveNamesTest` test class for examples.
-
 
 ### Step names
 
@@ -354,7 +362,7 @@ See `io.klvl.DescriptiveNamesTest` test class for examples.
 
 To add descriptive name for a step, just pass string to a Step annotation:
 ```java
-import io.qameta.allure.Step;
+package io.klvl;
 
 public class DescriptiveNamesTest {
 
@@ -374,8 +382,7 @@ public class DescriptiveNamesTest {
 
 It is possible to display parameter, passed to step method, in step name:
 ```java
-import io.qameta.allure.Step;
-import org.testng.annotations.Test;
+package io.klvl;
 
 public class ParametrizedStepTest {
     
@@ -391,8 +398,6 @@ public class ParametrizedStepTest {
     
 }
 ```
-
-See `io.klvl.ParametrizedStepTest` for examples.
 
 #### Step as lambda function
 
@@ -410,9 +415,7 @@ This section describes possibilities for adding additional information about a t
 
 The test can have is severity and can be displayed in a report:
 ```java
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import org.testng.annotations.Test;
+package io.klvl;
 
 public class SeverityTest {
     
@@ -432,7 +435,91 @@ The Allure report has the following list of severities:
 * CRITICAL 
 * BLOCKER
 
-See `io.klvl.SeverityTest` for examples.
+
+### Issue
+
+When automated test detected a defect, we create an issue in a bug-tracking system, disable this regression test(until 
+is fixed), and add link with issue to this test, to display it in a report.
+
+#### Single issue
+
+To display issue link for a test in Allure report, mark test method with the `@Issue` annotation:
+```java
+package io.klvl;
+
+public class IssueTest {
+    
+    @Test
+    @Issue("https://atlassian.jira.com/issues/KLVL_123")
+    public void issueTest() {
+        // your code here
+    }
+    
+}
+```
+
+#### Multiple issues
+
+If test fails not because of one issue, the test can be marked with the `@Issues` annotation:
+```java
+package io.klvl;
+
+public class IssueTest {
+
+    @Test(enabled = false)
+    @Issues({
+            @Issue("https://atlassian.jira.com/issues/KLVL_123"),
+            @Issue("https://atlassian.jira.com/issues/KLVL_124")
+            
+    })
+    public void multipleIssueTest() {
+        // your code here
+    }
+    
+}
+```
+
+
+#### Issue pattern
+
+If the only one bug-tracking system is used, a good idea would be to add `allure.link.issue.pattern` property to your 
+pom.xml:
+```xml
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>${maven-surefire-plugin.version}</version>
+      <configuration>
+        <systemPropertyVariables>
+          <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+          <allure.link.issue.pattern>https://atlassian.jira.com/{}</allure.link.issue.pattern>
+        </systemPropertyVariables>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+```
+
+So, it will be possible to mark test methods with the `@Issue` annotation like the following:
+```java
+package io.klvl;
+
+public class IssueTest {
+    
+  @Test(enabled = false)
+  @Issue("KLVL_1234")
+  public void issuePatternTest() {
+    // your code here
+  }
+
+}
+```
+
+#### Setting issue dynamically
+
+Follow [Allure lifecycle/Additional Report Information/Issue](#issue-1) section for information.
 
 
 
@@ -445,10 +532,9 @@ achieve it.
 
 ### Tests breakdown
 
-The Allure allow to mark test with specific `Epic`, `Feature`, `Story` and `Suite` dynamically at a runtime:
+To mark test with specific `Epic`, `Feature`, `Story` and `Suite` dynamically:
 ```java
-import io.qameta.allure.Allure;
-import org.testng.annotations.Test;
+package io.klvl.allurelifecycle;
 
 public class TestBreakdownTest {
 
@@ -463,16 +549,12 @@ public class TestBreakdownTest {
 }
 ```
 
-See `io.klvl.allurelifecycle.TestBreakdownTest` for examples.
-
 
 ### Steps
 
 Sometimes we want to group test steps into a single step, but we don't want put it in a separate method:
 ```java
-import org.testng.annotations.Test;
-
-import static io.qameta.allure.Allure.step;
+package io.klvl.allurelifecycle;
 
 public class StepAsLambdaTest {
 
@@ -488,4 +570,21 @@ public class StepAsLambdaTest {
 }
 ```
 
-See `io.klvl.StepAsLambdaTest` for examples.
+
+#### Additional test information
+
+##### Issue
+
+Add issue to Allure report dynamically:
+```java
+package io.klvl.allurelifecycle;
+
+public class AdditionalTestInformationTest {
+    
+    @Test
+    public void issueTest() {
+        Allure.issue("KLVL-123", "https://atlassian.jira.com/KLVL-123");
+    }
+    
+}
+```

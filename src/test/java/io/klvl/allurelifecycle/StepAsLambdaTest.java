@@ -1,4 +1,4 @@
-package io.klvl.breakdown;
+package io.klvl.allurelifecycle;
 
 import io.qameta.allure.Step;
 import org.testng.annotations.Test;

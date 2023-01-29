@@ -17,6 +17,7 @@
             <class name="io.klvl.ParametrizedStepTest"/>
             <class name="io.klvl.SeverityTest"/>
             <class name="io.klvl.SimpleTest"/>
+            <class name="io.klvl.IssueTest"/>
         </classes>
     </test>
 </suite>
