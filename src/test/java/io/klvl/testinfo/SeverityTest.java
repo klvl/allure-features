@@ -1,4 +1,4 @@
-package io.klvl;
+package io.klvl.testinfo;
 
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;

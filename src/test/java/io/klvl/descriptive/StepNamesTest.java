@@ -1,9 +1,25 @@
-package io.klvl;
+package io.klvl.descriptive;
 
 import io.qameta.allure.Step;
 import org.testng.annotations.Test;
 
-public class ParametrizedStepTest {
+public class StepNamesTest {
+
+    @Test(description = "As allure user I can set descriptive name for my test")
+    public void testDescriptiveName() {
+        firstStep();
+        secondStep();
+    }
+
+    @Step("Perform the first step")
+    public void firstStep() {
+        // you code here
+    }
+
+    @Step("Perform the second step")
+    public void secondStep() {
+        // you code here
+    }
 
     @Test
     public void testParametrizedSepName() {

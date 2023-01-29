@@ -15,15 +15,15 @@ file describes how to use this features separately from this project. Follow
   * [Configuration in pom.xml](#configuration-in-pomxml)
   * [Command-line option](#command-line-option)
 * [Descriptive names](#descriptive-names)
-  * [Tests breakdown](#tests-breakdown)
-  * [Test actions names](#test-actions-names)
-  * [Step names](#step-names)
+  * [Breakdown](#breakdown)
+  * [Actions](#actions)
+  * [Steps](#steps)
 * [Additional test information](#additional-test-information)
   * [Severity](#severity)
   * [Issue](#issue)
 * [Allure lifecycle](#allure-lifecycle)
-  * [Tests breakdown](#tests-breakdown-1)
-  * [Steps](#steps)
+  * [Breakdown](#breakdown-1)
+  * [Steps](#steps-1)
   * [Additional test information](#additional-test-information-1)
 
 
@@ -247,7 +247,7 @@ By default, the Allure report displays step names or test names as a method name
 There is a possibility to set more descriptive names in Allure report.
 
 
-### Tests breakdown
+### Breakdown
 
 Sometimes we want to split our test by different epics, features and stories.
 
@@ -267,7 +267,7 @@ allure report correspondingly. You will be able to find it on the first `Owervie
 section. It might help to find necessary tests faster and will simplify reading of your report for a stakeholders.
 
 ```java
-package io.klvl.breakdown.auhthorization;
+package io.klvl.descriptive.breakdown.auhthorization;
 
 @Epic("Authorization")
 @Feature("Sign in")
@@ -287,7 +287,7 @@ public class SignInWithCredentialsTest {
 Sometimes it is required to map your test class to multiple features and/or stories. It is possible to achieve it, by
 adding `@Features` and/or `@Stories` annotation to a test class. For example:
 ```java
-package io.klvl.breakdown;
+package io.klvl.descriptive.breakdown;
         
 @Epic("Some epic name")
 @Features({
@@ -327,13 +327,13 @@ allure serve target/allure-results
 Follow [Allure lifecycle/Tests breakdown](#tests-breakdown-1) section for details.
 
 
-### Test actions names
+### Actions
 
 To make name descriptive in Allure report, add a `description` parameter to annotation:
 ```java
-package io.klvl;
+package io.klvl.descriptive;
 
-public class DescriptiveNameTest {
+public class TestActionsNamesTest {
     
     @Test(description = "As allure user I can set descriptive name for my test")
     public void testDescriptiveName() {
@@ -362,9 +362,9 @@ The approach is the same for the following annotations:
 
 To add descriptive name for a step, just pass string to a Step annotation:
 ```java
-package io.klvl;
+package io.klvl.descriptive;
 
-public class DescriptiveNamesTest {
+public class StepNamesTest {
 
     @Step("Perform the first step")
     public void firstStep() {
@@ -382,9 +382,9 @@ public class DescriptiveNamesTest {
 
 It is possible to display parameter, passed to step method, in step name:
 ```java
-package io.klvl;
+package io.klvl.descriptive;
 
-public class ParametrizedStepTest {
+public class StepNamesTest {
     
     @Test
     public void testParametrizedSepName() {
@@ -445,7 +445,7 @@ is fixed), and add link with issue to this test, to display it in a report.
 
 To display issue link for a test in Allure report, mark test method with the `@Issue` annotation:
 ```java
-package io.klvl;
+package io.klvl.testinfo;
 
 public class IssueTest {
     
@@ -462,7 +462,7 @@ public class IssueTest {
 
 If test fails not because of one issue, the test can be marked with the `@Issues` annotation:
 ```java
-package io.klvl;
+package io.klvl.testinfo;
 
 public class IssueTest {
 
@@ -486,7 +486,7 @@ To use issue link pattern:
 * Follow [Allure properties](#allure-properties) section to configure link pattern  
 * Make test methods with the `@Issue` annotation
 ```java
-package io.klvl;
+package io.klvl.testinfo;
 
 public class IssueTest {
     
@@ -504,6 +504,11 @@ public class IssueTest {
 Follow [Allure lifecycle/Additional Report Information/Issue](#issue-1) section for information.
 
 
+### Issue
+
+To display issue in a report
+
+
 
 
 ## Allure lifecycle
@@ -512,7 +517,7 @@ The Allure allows to its features dynamically at a runtime, instead of using ann
 achieve it.
 
 
-### Tests breakdown
+### Breakdown
 
 To mark test with specific `Epic`, `Feature`, `Story` and `Suite` dynamically:
 ```java
@@ -553,9 +558,9 @@ public class StepAsLambdaTest {
 ```
 
 
-#### Additional test information
+### Additional test information
 
-##### Issue
+#### Issue
 
 Add issue to Allure report dynamically:
 ```java

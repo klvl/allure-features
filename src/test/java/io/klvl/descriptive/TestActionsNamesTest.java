@@ -1,6 +1,5 @@
-package io.klvl;
+package io.klvl.descriptive;
 
-import io.qameta.allure.Step;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterGroups;
 import org.testng.annotations.AfterMethod;
@@ -13,7 +12,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class DescriptiveNamesTest {
+public class TestActionsNamesTest {
 
     @BeforeSuite(description = "Some before suite action")
     public void beforeSuiteAction() {
@@ -42,18 +41,7 @@ public class DescriptiveNamesTest {
 
     @Test(description = "As allure user I can set descriptive name for my test")
     public void testDescriptiveName() {
-        firstStep();
-        secondStep();
-    }
-
-    @Step("Perform the first step")
-    public void firstStep() {
-        // you code here
-    }
-
-    @Step("Perform the second step")
-    public void secondStep() {
-        // you code here
+        // your code here
     }
 
     @AfterMethod(description = "Close session")

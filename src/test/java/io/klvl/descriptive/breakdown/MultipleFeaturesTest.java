@@ -1,4 +1,4 @@
-package io.klvl.breakdown;
+package io.klvl.descriptive.breakdown;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;

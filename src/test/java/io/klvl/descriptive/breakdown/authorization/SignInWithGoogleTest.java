@@ -1,4 +1,4 @@
-package io.klvl.breakdown.authorization;
+package io.klvl.descriptive.breakdown.authorization;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;

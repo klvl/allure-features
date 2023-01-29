@@ -1,4 +1,4 @@
-package io.klvl;
+package io.klvl.testinfo;
 
 import io.qameta.allure.Issue;
 import io.qameta.allure.Issues;
