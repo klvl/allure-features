@@ -8,7 +8,7 @@ public class IssueTest {
 
     @Test(enabled = false)
     @Issue("https://atlassian.jira.com/issues/KLVL_123")
-    public void issueTest() {
+    public void testIssue() {
         // your code here
     }
 
@@ -18,13 +18,13 @@ public class IssueTest {
             @Issue("https://atlassian.jira.com/issues/KLVL_124")
 
     })
-    public void multipleIssueTest() {
+    public void testMultipleIssues() {
         // your code here
     }
 
     @Test(enabled = false)
     @Issue("KLVL_1234")
-    public void issuePatternTest() {
+    public void testIssuePattern() {
         // your code here
     }
 

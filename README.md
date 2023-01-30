@@ -20,6 +20,7 @@ file describes how to use this features separately from this project. Follow
   * [Steps](#steps)
 * [Additional test information](#additional-test-information)
   * [Severity](#severity)
+  * [Link](#link)
   * [Issue](#issue)
 * [Allure lifecycle](#allure-lifecycle)
   * [Breakdown](#breakdown-1)
@@ -436,6 +437,80 @@ The Allure report has the following list of severities:
 * BLOCKER
 
 
+### Link
+
+Sometimes we may want to add a general link to a test in allure report.
+
+#### Default usage
+
+To add link to a test in report:
+```java
+package io.klvl.testinfo;
+
+import io.qameta.allure.Link;
+import org.testng.annotations.Test;
+
+public class LinkTest {
+
+  @Test
+  @Link("https://www.google.com")
+  public void testDefaultLinkUsage() {
+    // your code here
+  }
+
+}
+```
+
+#### Link with name
+
+If we want to display a URL as text, instead of full URL:
+```java
+package io.klvl.testinfo;
+
+import io.qameta.allure.Link;
+import org.testng.annotations.Test;
+
+public class LinkTest {
+
+  @Test
+  @Link(name = "my-link", url = "https://www.googgle.com")
+  public void testLinkAsText() {
+    // your code here
+  }
+
+}
+```
+
+
+#### Multiple links
+
+To display multiple links in a report:
+```java
+package io.klvl.testinfo;
+
+import io.qameta.allure.Link;
+import io.qameta.allure.Links;
+import org.testng.annotations.Test;
+
+public class LinkTest {
+
+    @Test
+    @Links({
+            @Link("https://www.google.com"),
+            @Link("https://www.yahoo.com")
+    })
+    public void testMultipleLinks() {
+
+    }
+
+}
+```
+
+#### Add link dynamically
+
+Follow [Allure lifecycle/Additional Report Information/Link](#link-1) section for information.
+
+
 ### Issue
 
 When automated test detected a defect, we create an issue in a bug-tracking system, disable this regression test(until 
@@ -451,7 +526,7 @@ public class IssueTest {
     
     @Test
     @Issue("https://atlassian.jira.com/issues/KLVL_123")
-    public void issueTest() {
+    public void testIssue() {
         // your code here
     }
     
@@ -472,7 +547,7 @@ public class IssueTest {
             @Issue("https://atlassian.jira.com/issues/KLVL_124")
             
     })
-    public void multipleIssueTest() {
+    public void testMultipleIssues() {
         // your code here
     }
     
@@ -492,23 +567,16 @@ public class IssueTest {
     
   @Test(enabled = false)
   @Issue("KLVL_1234")
-  public void issuePatternTest() {
+  public void testIssuePattern() {
     // your code here
   }
 
 }
 ```
 
-#### Setting issue dynamically
+#### Add issue dynamically
 
 Follow [Allure lifecycle/Additional Report Information/Issue](#issue-1) section for information.
-
-
-### Issue
-
-To display issue in a report
-
-
 
 
 ## Allure lifecycle
@@ -560,6 +628,26 @@ public class StepAsLambdaTest {
 
 ### Additional test information
 
+#### Link
+
+Add link to Allure report dynamically:
+```java
+package io.klvl.allurelifecycle;
+
+import io.qameta.allure.Allure;
+import org.testng.annotations.Test;
+
+public class AdditionalTestInformationTest {
+
+  @Test
+  public void testLink() {
+    Allure.link("https://google.com");
+    Allure.link("google", "https://google.com");
+  }
+
+}
+```
+
 #### Issue
 
 Add issue to Allure report dynamically:
@@ -569,7 +657,7 @@ package io.klvl.allurelifecycle;
 public class AdditionalTestInformationTest {
     
     @Test
-    public void issueTest() {
+    public void testIssue() {
         Allure.issue("KLVL-123", "https://atlassian.jira.com/KLVL-123");
     }
     
