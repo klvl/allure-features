@@ -19,6 +19,7 @@ file describes how to use this features separately from this project. Follow
   * [Actions](#actions)
   * [Steps](#steps)
 * [Additional test information](#additional-test-information)
+  * [Description](#description)
   * [Severity](#severity)
   * [Link](#link)
   * [Issue](#issue)
@@ -411,6 +412,63 @@ Follow [Allure lifecycle/Tests breakdown](#steps) section for details.
 
 This section describes possibilities for adding additional information about a test to Allure report.
 
+### Description
+
+Sometimes, only the test name is not enough to understand the purpose of the test, so you may want to add description.
+
+#### Default usage
+
+To add description to a report:
+```java
+package io.klvl.testinfo;
+
+import io.qameta.allure.Description;
+import org.testng.annotations.Test;
+
+public class DescriptionTest {
+
+    @Test
+    @Description("The purpose of this test is to demonstrate how to add description to a report")
+    public void testDescriptionDefaultUsage() {
+        // your code here
+    }
+
+}
+```
+
+#### Multi-paragraph
+
+
+To add multi-paragraph description to a report:
+```java
+package io.klvl.testinfo;
+
+import io.qameta.allure.Description;
+import org.testng.annotations.Test;
+
+public class DescriptionTest {
+    
+    @Test
+    @Description("""
+            The purpose of this test is to demonstrate how to add
+            multi-paragraph description to
+            allure report
+            """)
+    public void testDescriptionMultiParagraph() {
+        // your code here
+    }
+
+}
+```
+
+#### Add HTML description
+
+Follow [Allure lifecycle/Additional Report Information/Description](#description-1) section for information.
+
+#### Add description dynamically
+
+Follow [Allure lifecycle/Additional Report Information/Description](#description-1) section for information.
+
 
 ### Severity
 
@@ -627,6 +685,44 @@ public class StepAsLambdaTest {
 
 
 ### Additional test information
+
+#### Description
+
+Add description to Allure report dynamically:
+```java
+package io.klvl.allurelifecycle;
+
+import io.qameta.allure.Allure;
+import org.testng.annotations.Test;
+
+public class AdditionalTestInformationTest {
+
+    @Test
+    public void testDescription() {
+        Allure.description("The purpose of this test is to demonstrate how to add description to a report!");
+    }
+
+}
+```
+
+Add HTML description to Allure report:
+```java
+package io.klvl.allurelifecycle;
+
+import io.qameta.allure.Allure;
+import org.testng.annotations.Test;
+
+public class AdditionalTestInformationTest {
+
+    @Test
+    public void testDescriptionHtml() {
+        Allure.descriptionHtml("<div style=\"color: blue\">" +
+                "The purpose of this test is to demonstrate how to add HTML description to a report!" +
+                "</div>");
+    }
+
+}
+```
 
 #### Link
 
