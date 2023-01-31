@@ -1,12 +1,11 @@
 # The most of the Allure report
 
-This module contains examples of [allure-report](https://github.com/allure-framework/allure2) features. The current
-file describes how to use this features separately from this project. Follow 
-[official documentation](https://docs.qameta.io/allure/) for more details.
+This repository contains usages examples of [allure-report](https://github.com/allure-framework/allure2) features.
 
 **Outline:**
-* [Prerequisites](#prerequisites)
-* [Quick start](#quick-start)
+* [Prerequisites](#prerequisites)  
+* [Quick start](#quick-start)  
+* [Setup from scratch](#setup-from-scratch)  
 * [Allure CLI](#allure-cli)
   * [Installation](#installation)
   * [Commands](#commands)
@@ -23,10 +22,12 @@ file describes how to use this features separately from this project. Follow
   * [Severity](#severity)
   * [Link](#link)
   * [Issue](#issue)
+  * [TMS](#tms)
 * [Allure lifecycle](#allure-lifecycle)
   * [Breakdown](#breakdown-1)
   * [Steps](#steps-1)
   * [Additional test information](#additional-test-information-1)
+
 
 
 
@@ -41,11 +42,29 @@ Follow the [Allure CLI/Installation](#installation) section for the installation
 
 
 
+
 ## Quick start
 
-* Create maven project  
-* Add 
-[allure-testng](https://mvnrepository.com/artifact/io.qameta.allure/allure-testng), 
+* Clone the project  
+```shell
+git clone git@github.com:klvl/most-of-allure.git
+```
+* Run test  
+```shell
+mvn test -Dtest="SimpleTest#simpleTest"
+```
+* Open report  
+```shell
+allure serve
+```
+
+
+
+
+
+## Setup from scratch
+
+* Add [allure-testng](https://mvnrepository.com/artifact/io.qameta.allure/allure-testng), 
 [testng](https://mvnrepository.com/artifact/org.testng/testng) and 
 [maven-surefire-plugin](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin) 
 dependencies to pom.xml  
@@ -111,11 +130,11 @@ public class SimpleTest {
 
 }
 ```
-* Run test  
+* Run test
 ```shell
 mvn test -Dtest="SimpleTest#simpleTest"
 ```
-* Run allure command to generate and open allure report  
+* Open report
 ```shell
 allure serve
 ```
@@ -123,10 +142,10 @@ allure serve
 
 
 
+
 ## Allure CLI
 
-The Allure report has an allure-command line tool for allure report generation.
-
+This section describes how to install and use allure-commandline.
 
 ### Installation
 
@@ -140,29 +159,27 @@ npm install -g allure-commandline --save-dev
 ```
 
 
+
 ### Commands
 
-* Describe available commands  
+* Generate `allure-report` directory, with HTML report  
 ```shell
-allure help
-```
-* Generate allure-report directory, with HTML report  
-```shell
+cd /path/to/allure-results
 allure generate
 ```
-* Generate allure-report directory, with HTML report, passing path to allure-results directory  
+* Generate `allure-report` directory, with HTML report, passing path to `allure-results` directory  
 ```shell
 allure generate path/to/allure-results/
 ```
-* Generate allure-report directory, with HTML report, passing path to allure-results directory and name of output folder  
+* Generate `allure-report` directory, with HTML report, passing path to `allure-results` directory and name of output folder  
 ```shell
 allure generate path/to/allure-results/ -o allure-report
 ```
-* Open allure report in web browser  
+* Open report in a web browser  
 ```shell
 allure open
 ```
-* Generate allure-report in temp directory and open allure report  
+* Generate `allure-report` directory in /temp folder and open a report  
 ```shell
 allure serve
 ```
@@ -170,20 +187,13 @@ allure serve
 
 
 
+
 ## Allure properties
 
-The allure allows to configure the following properties:
-* The `allure-results` directory
-* The Issue link pattern
-* The Tms link pattern
-
-It is possible to configure it using `allure.properties` file or configuration property in maven-surefire-plugin, or
-passing configuration property as command line option.
-
+This section describes how to set and use Allure properties.
 
 ### Allure properties file
 
-To use Allure properties:
 * Create a file with the `allure.properties` name, in the `src/test/resources` directory
 ```properties
 allure.results.directory=target/allure-results
@@ -200,9 +210,9 @@ allure serve target/allure-results
 ```
 
 
+
 ### Configuration in pom.xml
 
-To use configuration in pom.xml:
 * Add property to pom.xml
 ```xml
 <build>
@@ -230,9 +240,9 @@ allure serve target/allure-results
 ```
 
 
+
 ### Command line option
 
-To use property via command line:
 * Run test
 ```shell
 mvn test -Dtest="SimpleTest#simpleTest" -Dallure.report.directory="target/allure-results/"
@@ -243,11 +253,13 @@ allure serve target/allure-results
 ```
 
 
+
+
+
 ## Descriptive names
 
 By default, the Allure report displays step names or test names as a method name for where annotation is applied to.
 There is a possibility to set more descriptive names in Allure report.
-
 
 ### Breakdown
 
@@ -284,6 +296,7 @@ public class SignInWithCredentialsTest {
 }
 ```
 
+
 #### Multiple features and stories
 
 Sometimes it is required to map your test class to multiple features and/or stories. It is possible to achieve it, by
@@ -303,6 +316,7 @@ public class MultipleFeaturesTest {
 
 Please, note that all annotations(`@Epic`, `@Feature`/`@Features`, `@Story`/`@Stories`) can be applied on a test method
 level, not only on a test class.
+
 
 #### Suite name
 
@@ -324,14 +338,15 @@ mvn test -DsuiteXmlFile=testng.xml
 allure serve target/allure-results
 ```
 
+
 #### Dynamic tests breakdown
 
 Follow [Allure lifecycle/Tests breakdown](#tests-breakdown-1) section for details.
 
 
+
 ### Actions
 
-To make name descriptive in Allure report, add a `description` parameter to annotation:
 ```java
 package io.klvl.descriptive;
 
@@ -358,6 +373,7 @@ The approach is the same for the following annotations:
 * Test
 
 
+
 ### Step names
 
 #### Basic usage
@@ -380,6 +396,7 @@ public class StepNamesTest {
 }
 ```
 
+
 #### Parametrized step
 
 It is possible to display parameter, passed to step method, in step name:
@@ -401,9 +418,11 @@ public class StepNamesTest {
 }
 ```
 
+
 #### Step as lambda function
 
 Follow [Allure lifecycle/Tests breakdown](#steps) section for details.
+
 
 
 
@@ -414,11 +433,8 @@ This section describes possibilities for adding additional information about a t
 
 ### Description
 
-Sometimes, only the test name is not enough to understand the purpose of the test, so you may want to add description.
-
 #### Default usage
 
-To add description to a report:
 ```java
 package io.klvl.testinfo;
 
@@ -436,10 +452,9 @@ public class DescriptionTest {
 }
 ```
 
+
 #### Multi-paragraph
 
-
-To add multi-paragraph description to a report:
 ```java
 package io.klvl.testinfo;
 
@@ -461,13 +476,16 @@ public class DescriptionTest {
 }
 ```
 
+
 #### Add HTML description
 
 Follow [Allure lifecycle/Additional Report Information/Description](#description-1) section for information.
 
+
 #### Add description dynamically
 
 Follow [Allure lifecycle/Additional Report Information/Description](#description-1) section for information.
+
 
 
 ### Severity
@@ -495,13 +513,13 @@ The Allure report has the following list of severities:
 * BLOCKER
 
 
+
 ### Link
 
-Sometimes we may want to add a general link to a test in allure report.
+This section describes how to add link to a report.
 
 #### Default usage
 
-To add link to a test in report:
 ```java
 package io.klvl.testinfo;
 
@@ -519,9 +537,9 @@ public class LinkTest {
 }
 ```
 
+
 #### Link with name
 
-If we want to display a URL as text, instead of full URL:
 ```java
 package io.klvl.testinfo;
 
@@ -542,7 +560,6 @@ public class LinkTest {
 
 #### Multiple links
 
-To display multiple links in a report:
 ```java
 package io.klvl.testinfo;
 
@@ -564,19 +581,19 @@ public class LinkTest {
 }
 ```
 
+
 #### Add link dynamically
 
 Follow [Allure lifecycle/Additional Report Information/Link](#link-1) section for information.
 
 
+
 ### Issue
 
-When automated test detected a defect, we create an issue in a bug-tracking system, disable this regression test(until 
-is fixed), and add link with issue to this test, to display it in a report.
+This section describes how to add link with a bug symbol to a report.  
 
 #### Single issue
 
-To display issue link for a test in Allure report, mark test method with the `@Issue` annotation:
 ```java
 package io.klvl.testinfo;
 
@@ -591,9 +608,9 @@ public class IssueTest {
 }
 ```
 
+
 #### Multiple issues
 
-If test fails not because of one issue, the test can be marked with the `@Issues` annotation:
 ```java
 package io.klvl.testinfo;
 
@@ -615,9 +632,8 @@ public class IssueTest {
 
 #### Issue pattern
 
-To use issue link pattern:
 * Follow [Allure properties](#allure-properties) section to configure link pattern  
-* Make test methods with the `@Issue` annotation
+* Mark test methods with the `@Issue` annotation
 ```java
 package io.klvl.testinfo;
 
@@ -632,20 +648,94 @@ public class IssueTest {
 }
 ```
 
+
 #### Add issue dynamically
 
 Follow [Allure lifecycle/Additional Report Information/Issue](#issue-1) section for information.
 
 
+
+### TMS Link
+
+This section describes how to add link with a test management system symbol.
+
+
+#### Single TMS link
+
+```java
+package io.klvl.testinfo;
+
+import io.qameta.allure.TmsLink;
+import org.testng.annotations.Test;
+
+public class TmsLinkTest {
+
+    @Test
+    @TmsLink("https://atlassian.jira.com/KLVL_123")
+    public void testTmsLink() {
+        // your code here
+    }
+
+}
+```
+
+
+#### Multiple TMS Links
+
+```java
+package io.klvl.testinfo;
+
+import io.qameta.allure.TmsLink;
+import io.qameta.allure.TmsLinks;
+import org.testng.annotations.Test;
+
+public class TmsLinkTest {
+
+    @Test
+    @TmsLinks({
+            @TmsLink("https://atlassian.jira.com/KLVL_123"),
+            @TmsLink("https://atlassian.jira.com/KLVL_124")
+
+    })
+    public void testMultipleTmsLinks() {
+        // your code here
+    }
+
+}
+```
+
+
+#### TMS Link pattern
+
+* Follow [Allure properties](#allure-properties) section to configure TMS link pattern  
+* Mark test methods with the `@TmsLink` annotation  
+```java
+package io.klvl.testinfo;
+
+import io.qameta.allure.TmsLink;
+import org.testng.annotations.Test;
+
+public class TmsLinkTest {
+
+    @Test
+    @TmsLink("KLVL_1234")
+    public void testTmsLinkPattern() {
+        // your code here
+    }
+
+}
+```
+
+
+
+
+
 ## Allure lifecycle
 
-The Allure allows to its features dynamically at a runtime, instead of using annotations. This section describes how to
-achieve it.
-
+This section describes how to use allure features dynamically at a runtime.
 
 ### Breakdown
 
-To mark test with specific `Epic`, `Feature`, `Story` and `Suite` dynamically:
 ```java
 package io.klvl.allurelifecycle;
 
@@ -663,9 +753,9 @@ public class TestBreakdownTest {
 ```
 
 
+
 ### Steps
 
-Sometimes we want to group test steps into a single step, but we don't want put it in a separate method:
 ```java
 package io.klvl.allurelifecycle;
 
@@ -684,11 +774,11 @@ public class StepAsLambdaTest {
 ```
 
 
+
 ### Additional test information
 
 #### Description
 
-Add description to Allure report dynamically:
 ```java
 package io.klvl.allurelifecycle;
 
@@ -705,7 +795,6 @@ public class AdditionalTestInformationTest {
 }
 ```
 
-Add HTML description to Allure report:
 ```java
 package io.klvl.allurelifecycle;
 
@@ -724,9 +813,9 @@ public class AdditionalTestInformationTest {
 }
 ```
 
+
 #### Link
 
-Add link to Allure report dynamically:
 ```java
 package io.klvl.allurelifecycle;
 
@@ -744,9 +833,9 @@ public class AdditionalTestInformationTest {
 }
 ```
 
+
 #### Issue
 
-Add issue to Allure report dynamically:
 ```java
 package io.klvl.allurelifecycle;
 
