@@ -15,9 +15,9 @@ This repository contains usages examples of [allure-report](https://github.com/a
   * [Command-line option](#command-line-option)
 * [Descriptive names](#descriptive-names)
   * [Test actions](#test-actions)
+  * [Steps](#steps)
   * [Test breakdown](#test-breakdown)
   * [Suite name](#suite-name)
-  * [Steps](#steps)
 * [Annotations](#annotations)
   * [Step](#step)
   * [Epic, Feature and Story](#epic-feature-and-story)
@@ -25,14 +25,14 @@ This repository contains usages examples of [allure-report](https://github.com/a
   * [Severity](#severity)
   * [Link](#link)
   * [Issue](#issue)
-  * [TMS](#tms)
+  * [TMS Link](#tms-link)
 * [Allure lifecycle](#allure-lifecycle)
   * [Step](#step-1)
-  * [Epic, Feature and story](#epic-feature-and-story-1)
+  * [Epic, Feature, Story and Suite](#epic-feature-story-and-suite)
   * [Description](#description-1)
   * [Link](#link-1)
   * [Issue](#issue-1)
-  * [TMS](#tms-1)
+  * [TMS Link](#tms-link-1)
 
 
 
@@ -299,15 +299,21 @@ The approach is the same for the following annotations:
 
 
 
+### Steps
+
+Follow the [Annotations/Step](#step) and [Allure lifecycle/Step](#step-1) sections for information.
+
+
+
 ### Test breakdown
 
-Follow the [Annotations/Epic, Feature and Story](#epic-feature-and-story-1) section for information.
+Follow the [Annotations/Epic, Feature and Story](#epic-feature-and-story) and 
+[Allure lifecycle/Epic, Feature, Story and Suite](#epic-feature-story-and-suite) sections for information.
 
 
 ### Suite name
 
-By default, all tests are displayed under `Default suite`. The TestNG suites should be used to change it.
-
+**Using a TestNG suite:**
 * Create testng.xml file and add suite name
 ```xml
 <suite name="My test suite name" verbose="1" >
@@ -324,10 +330,8 @@ mvn test -DsuiteXmlFile=testng.xml
 allure serve target/allure-results
 ```
 
-
-### Steps
-
-Follow the [Annotations/Step](#step) section for information.
+**Dynamically:** follow the [Allure lifecycle/Epic, Feature, Story and Suite](#epic-feature-story-and-suite) section 
+for information.
 
 
 
@@ -375,8 +379,6 @@ public class StepTest {
     
 }
 ```
-
-**Step as lambda function:** follow [Allure lifecycle/Tests breakdown](#steps) section for details.
 
 
 
@@ -498,12 +500,6 @@ public class DescriptionTest {
 }
 ```
 
-**Add HTML description:** follow [Allure lifecycle/Additional Report Information/Description](#description-1) section 
-for information.
-
-**Add description dynamically:** follow [Allure lifecycle/Additional Report Information/Description](#description-1) 
-section for information.
-
 
 
 ### Severity
@@ -594,8 +590,6 @@ public class LinkTest {
 }
 ```
 
-**Add link dynamically:** follow [Allure lifecycle/Additional Report Information/Link](#link-1) section for information.
-
 
 
 ### Issue
@@ -653,9 +647,6 @@ public class IssueTest {
 
 }
 ```
-
-**Add issue dynamically:** follow [Allure lifecycle/Additional Report Information/Issue](#issue-1) section for 
-information.
 
 
 
@@ -738,7 +729,7 @@ This section describes how to use allure features dynamically at a runtime.
 ```java
 package io.klvl.allurelifecycle;
 
-public class StepAsLambdaTest {
+public class StepTest {
 
   @Test
   public void testStepAsLambda() {
@@ -754,12 +745,12 @@ public class StepAsLambdaTest {
 
 
 
-### Epic, Feature and story
+### Epic, Feature, Story and Suite
 
 ```java
 package io.klvl.allurelifecycle;
 
-public class TestBreakdownTest {
+public class EpicFeatureStorySuiteTest {
 
     @Test
     public void testAllureLifecycleBreakdown() {
@@ -783,7 +774,7 @@ package io.klvl.allurelifecycle;
 import io.qameta.allure.Allure;
 import org.testng.annotations.Test;
 
-public class AdditionalTestInformationTest {
+public class DescriptionTest {
 
     @Test
     public void testDescription() {
@@ -800,7 +791,7 @@ package io.klvl.allurelifecycle;
 import io.qameta.allure.Allure;
 import org.testng.annotations.Test;
 
-public class AdditionalTestInformationTest {
+public class DescriptionTest {
 
     @Test
     public void testDescriptionHtml() {
@@ -822,7 +813,7 @@ package io.klvl.allurelifecycle;
 import io.qameta.allure.Allure;
 import org.testng.annotations.Test;
 
-public class AdditionalTestInformationTest {
+public class LinkTest {
 
   @Test
   public void testLink() {
@@ -840,12 +831,32 @@ public class AdditionalTestInformationTest {
 ```java
 package io.klvl.allurelifecycle;
 
-public class AdditionalTestInformationTest {
+public class IssueTest {
     
     @Test
     public void testIssue() {
         Allure.issue("KLVL-123", "https://atlassian.jira.com/KLVL-123");
     }
     
+}
+```
+
+
+
+### TMS Link
+
+```java
+package io.klvl.allurelifecycle;
+
+import io.qameta.allure.Allure;
+import org.testng.annotations.Test;
+
+public class TmsLinkTest {
+
+    @Test
+    public void testTmsLink() {
+        Allure.tms("KLVL-123", "https://atlassian.jira.com/KLVL-123");
+    }
+
 }
 ```

@@ -3,10 +3,10 @@ package io.klvl.allurelifecycle;
 import io.qameta.allure.Allure;
 import org.testng.annotations.Test;
 
-public class TestBreakdownTest {
+public class EpicFeatureStorySuiteTest {
 
     @Test
-    public void testAllureLifecycleBreakdown() {
+    public void testEpicFeatureStorySuite() {
         Allure.epic("Epic name");
         Allure.feature("Feature name");
         Allure.story("Story name");

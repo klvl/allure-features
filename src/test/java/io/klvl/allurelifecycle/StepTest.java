@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 
 import static io.qameta.allure.Allure.step;
 
-public class StepAsLambdaTest {
+public class StepTest {
 
     @Test
     public void testStepAsLambda() {
