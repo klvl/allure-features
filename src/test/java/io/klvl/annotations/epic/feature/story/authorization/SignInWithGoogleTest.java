@@ -1,4 +1,4 @@
-package io.klvl.descriptive.breakdown.authorization;
+package io.klvl.annotations.epic.feature.story.authorization;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;

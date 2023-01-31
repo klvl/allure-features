@@ -1,9 +1,9 @@
-package io.klvl.descriptive;
+package io.klvl.annotations;
 
 import io.qameta.allure.Step;
 import org.testng.annotations.Test;
 
-public class StepNamesTest {
+public class StepTest {
 
     @Test(description = "As allure user I can set descriptive name for my test")
     public void testDescriptiveName() {

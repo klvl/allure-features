@@ -21,4 +21,9 @@ public class SimpleTest {
         // your code here
     }
 
+    @Test(description = "As a user I see descriptive test name in a report")
+    public void testDescriptiveTestName() {
+        // your code here
+    }
+
 }

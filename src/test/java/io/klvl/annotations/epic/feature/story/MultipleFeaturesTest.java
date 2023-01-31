@@ -1,4 +1,4 @@
-package io.klvl.descriptive.breakdown;
+package io.klvl.annotations.epic.feature.story;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;

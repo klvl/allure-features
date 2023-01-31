@@ -14,19 +14,25 @@ This repository contains usages examples of [allure-report](https://github.com/a
   * [Configuration in pom.xml](#configuration-in-pomxml)
   * [Command-line option](#command-line-option)
 * [Descriptive names](#descriptive-names)
-  * [Breakdown](#breakdown)
-  * [Actions](#actions)
+  * [Test actions](#test-actions)
+  * [Test breakdown](#test-breakdown)
+  * [Suite name](#suite-name)
   * [Steps](#steps)
-* [Additional test information](#additional-test-information)
+* [Annotations](#annotations)
+  * [Step](#step)
+  * [Epic, Feature and Story](#epic-feature-and-story)
   * [Description](#description)
   * [Severity](#severity)
   * [Link](#link)
   * [Issue](#issue)
   * [TMS](#tms)
 * [Allure lifecycle](#allure-lifecycle)
-  * [Breakdown](#breakdown-1)
-  * [Steps](#steps-1)
-  * [Additional test information](#additional-test-information-1)
+  * [Step](#step-1)
+  * [Epic, Feature and story](#epic-feature-and-story-1)
+  * [Description](#description-1)
+  * [Link](#link-1)
+  * [Issue](#issue-1)
+  * [TMS](#tms-1)
 
 
 
@@ -258,67 +264,47 @@ allure serve target/allure-results
 
 ## Descriptive names
 
-By default, the Allure report displays step names or test names as a method name for where annotation is applied to.
-There is a possibility to set more descriptive names in Allure report.
+The test name, steps and suites are displayed as packages/classes/method names. This section describes how to set 
+custom names for these attributes.
 
-### Breakdown
-
-Sometimes we want to split our test by different epics, features and stories.
-
-#### Basic test breakdown
-
-Imagine you test authorization in your system. It is possible to sign up and sign in. There is a possibility to 
-authorize using regular login and password or, using your Google account. Finally, there are different cases to test, 
-e.g. sign up/sign in with valid credentials, sign up/sign in with invalid credentials and so on and so forth. 
-So, let's pick up a `Sign in` flow and try to split it by different levels:
-1. Authorization — it is a top level, and it is called `Epic`  
-2. Sign in — it is a `Feature`  
-3. Sign in with login and password(credentials) — it is a `Story`  
-4. Sign in with valid/invalid credentials — `Test` cases
-
-You can mark your test class with corresponding annotations(`@Epic`, `@Feature`, `@Story`) and it will be grouped in 
-allure report correspondingly. You will be able to find it on the first `Owerview` page in the `Features by stories` 
-section. It might help to find necessary tests faster and will simplify reading of your report for a stakeholders.
+### Test actions
 
 ```java
-package io.klvl.descriptive.breakdown.auhthorization;
+package io.klvl.descriptive;
 
-@Epic("Authorization")
-@Feature("Sign in")
-@Story("Sign in with credentials")
-public class SignInWithCredentialsTest {
+import org.testng.annotations.Test;
 
-  @Test
-  public void testSignInWithValidCredentials() {
+public class TestActionsNamesTest {
+
+  @Test(description = "As allure user I can set descriptive name for my test")
+  public void testDescriptiveName() {
     // your code here
   }
 
 }
 ```
 
-
-#### Multiple features and stories
-
-Sometimes it is required to map your test class to multiple features and/or stories. It is possible to achieve it, by
-adding `@Features` and/or `@Stories` annotation to a test class. For example:
-```java
-package io.klvl.descriptive.breakdown;
-        
-@Epic("Some epic name")
-@Features({
-        @Feature("The first feature name"),
-        @Feature("The second feature name"),
-})
-@Story("Some story name")
-public class MultipleFeaturesTest {
-}
-```
-
-Please, note that all annotations(`@Epic`, `@Feature`/`@Features`, `@Story`/`@Stories`) can be applied on a test method
-level, not only on a test class.
+The approach is the same for the following annotations:
+* AfterClass
+* AfterGroups
+* AfterMethod
+* AfterSuite
+* AfterTest
+* BeforeClass
+* BeforeGroups
+* BeforeMethod
+* BeforeSuite
+* BeforeTest
+* Test
 
 
-#### Suite name
+
+### Test breakdown
+
+Follow the [Annotations/Epic, Feature and Story](#epic-feature-and-story-1) section for information.
+
+
+### Suite name
 
 By default, all tests are displayed under `Default suite`. The TestNG suites should be used to change it.
 
@@ -339,50 +325,25 @@ allure serve target/allure-results
 ```
 
 
-#### Dynamic tests breakdown
+### Steps
 
-Follow [Allure lifecycle/Tests breakdown](#tests-breakdown-1) section for details.
+Follow the [Annotations/Step](#step) section for information.
 
 
 
-### Actions
 
+
+## Annotations
+
+This section describes usages of Allure annotations.
+
+### Step
+
+**Basic usage:**
 ```java
 package io.klvl.descriptive;
 
-public class TestActionsNamesTest {
-    
-    @Test(description = "As allure user I can set descriptive name for my test")
-    public void testDescriptiveName() {
-        
-    }
-}
-```
-
-The approach is the same for the following annotations:
-* AfterClass
-* AfterGroups
-* AfterMethod
-* AfterSuite
-* AfterTest
-* BeforeClass
-* BeforeGroups
-* BeforeMethod
-* BeforeSuite
-* BeforeTest
-* Test
-
-
-
-### Step names
-
-#### Basic usage
-
-To add descriptive name for a step, just pass string to a Step annotation:
-```java
-package io.klvl.descriptive;
-
-public class StepNamesTest {
+public class StepTest {
 
     @Step("Perform the first step")
     public void firstStep() {
@@ -396,14 +357,11 @@ public class StepNamesTest {
 }
 ```
 
-
-#### Parametrized step
-
-It is possible to display parameter, passed to step method, in step name:
+**Parametrized step:**
 ```java
 package io.klvl.descriptive;
 
-public class StepNamesTest {
+public class StepTest {
     
     @Test
     public void testParametrizedSepName() {
@@ -418,73 +376,133 @@ public class StepNamesTest {
 }
 ```
 
-
-#### Step as lambda function
-
-Follow [Allure lifecycle/Tests breakdown](#steps) section for details.
+**Step as lambda function:** follow [Allure lifecycle/Tests breakdown](#steps) section for details.
 
 
 
+### Epic, Feature and Story
 
+Imagine you test authorization in your system. It is possible to sign up and sign in. There is a possibility to
+authorize using regular login and password or, using your Google account. Finally, there are different cases to test,
+e.g. sign up/sign in with valid credentials, sign up/sign in with invalid credentials and so on and so forth.
+So, let's pick up a `Sign in` flow and try to split it by different levels:
+1. Authorization — it is a top level, and it is called `Epic`
+2. Sign in — it is a `Feature`
+3. Sign in with login and password(credentials) — it is a `Story`
+4. Sign in with valid/invalid credentials — `Test` cases
 
-## Additional test information
+You can mark your test class with corresponding annotations(`@Epic`, `@Feature`, `@Story`) and it will be grouped in
+allure report correspondingly. You will be able to find it on the first `Owerview` page in the `Features by stories`
+section. It might help to find necessary tests faster and will simplify reading of your report for a stakeholders.
 
-This section describes possibilities for adding additional information about a test to Allure report.
+Please, note that all annotations(`@Epic`, `@Feature`/`@Features`, `@Story`/`@Stories`) can be applied on a test method
+level, not only on a test class.
+
+**Basic usage:**
+```java
+package io.klvl.annotations.epic.feature.story.auhthorization;
+
+@Epic("Authorization")
+@Feature("Sign in")
+@Story("Sign in with credentials")
+public class SignInWithCredentialsTest {
+
+  @Test
+  public void testSignInWithValidCredentials() {
+    // your code here
+  }
+
+}
+```
+
+**Multiple Features and Stories:**
+```java
+package io.klvl.annotations.epic.feature.story;
+        
+@Epic("Some epic name")
+@Features({
+        @Feature("The first feature name"),
+        @Feature("The second feature name"),
+})
+@Story("Some story name")
+public class MultipleFeaturesTest {
+}
+```
+
+**Multiple Stories:**
+```java
+package io.klvl.annotations.epic.feature.story;
+
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Stories;
+import io.qameta.allure.Story;
+import org.testng.annotations.Test;
+
+@Epic("Some epic name")
+@Feature("Some feature name")
+@Stories({
+        @Story("The first story name"),
+        @Story("The second story name"),
+})
+public class MultipleStoriesTest {
+
+    @Test
+    public void testMultipleStories() {
+        // your code here
+    }
+
+}
+```
+
 
 ### Description
 
-#### Default usage
-
+**Default usage:**
 ```java
-package io.klvl.testinfo;
+package io.klvl.annotations;
 
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
 public class DescriptionTest {
 
-    @Test
-    @Description("The purpose of this test is to demonstrate how to add description to a report")
-    public void testDescriptionDefaultUsage() {
-        // your code here
-    }
+  @Test
+  @Description("The purpose of this test is to demonstrate how to add description to a report")
+  public void testDescriptionDefaultUsage() {
+    // your code here
+  }
 
 }
 ```
 
-
-#### Multi-paragraph
-
+**Multi-paragraph:**
 ```java
-package io.klvl.testinfo;
+package io.klvl.annotations;
 
 import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
 public class DescriptionTest {
-    
-    @Test
-    @Description("""
-            The purpose of this test is to demonstrate how to add
-            multi-paragraph description to
-            allure report
-            """)
-    public void testDescriptionMultiParagraph() {
-        // your code here
-    }
+
+  @Test
+  @Description("""
+          The purpose of this test is to demonstrate how to add
+          multi-paragraph description to
+          allure report
+          """)
+  public void testDescriptionMultiParagraph() {
+    // your code here
+  }
 
 }
 ```
 
+**Add HTML description:** follow [Allure lifecycle/Additional Report Information/Description](#description-1) section 
+for information.
 
-#### Add HTML description
-
-Follow [Allure lifecycle/Additional Report Information/Description](#description-1) section for information.
-
-
-#### Add description dynamically
-
-Follow [Allure lifecycle/Additional Report Information/Description](#description-1) section for information.
+**Add description dynamically:** follow [Allure lifecycle/Additional Report Information/Description](#description-1) 
+section for information.
 
 
 
@@ -518,10 +536,9 @@ The Allure report has the following list of severities:
 
 This section describes how to add link to a report.
 
-#### Default usage
-
+**Default usage:**
 ```java
-package io.klvl.testinfo;
+package io.klvl.annotations;
 
 import io.qameta.allure.Link;
 import org.testng.annotations.Test;
@@ -537,11 +554,9 @@ public class LinkTest {
 }
 ```
 
-
-#### Link with name
-
+**Link with name:**
 ```java
-package io.klvl.testinfo;
+package io.klvl.annotations;
 
 import io.qameta.allure.Link;
 import org.testng.annotations.Test;
@@ -557,11 +572,9 @@ public class LinkTest {
 }
 ```
 
-
-#### Multiple links
-
+**Multiple links:**
 ```java
-package io.klvl.testinfo;
+package io.klvl.annotations;
 
 import io.qameta.allure.Link;
 import io.qameta.allure.Links;
@@ -569,22 +582,19 @@ import org.testng.annotations.Test;
 
 public class LinkTest {
 
-    @Test
-    @Links({
-            @Link("https://www.google.com"),
-            @Link("https://www.yahoo.com")
-    })
-    public void testMultipleLinks() {
+  @Test
+  @Links({
+          @Link("https://www.google.com"),
+          @Link("https://www.yahoo.com")
+  })
+  public void testMultipleLinks() {
 
-    }
+  }
 
 }
 ```
 
-
-#### Add link dynamically
-
-Follow [Allure lifecycle/Additional Report Information/Link](#link-1) section for information.
+**Add link dynamically:** follow [Allure lifecycle/Additional Report Information/Link](#link-1) section for information.
 
 
 
@@ -592,53 +602,49 @@ Follow [Allure lifecycle/Additional Report Information/Link](#link-1) section fo
 
 This section describes how to add link with a bug symbol to a report.  
 
-#### Single issue
-
+**Single issue:**
 ```java
-package io.klvl.testinfo;
-
-public class IssueTest {
-    
-    @Test
-    @Issue("https://atlassian.jira.com/issues/KLVL_123")
-    public void testIssue() {
-        // your code here
-    }
-    
-}
-```
-
-
-#### Multiple issues
-
-```java
-package io.klvl.testinfo;
+package io.klvl.annotations;
 
 public class IssueTest {
 
-    @Test(enabled = false)
-    @Issues({
-            @Issue("https://atlassian.jira.com/issues/KLVL_123"),
-            @Issue("https://atlassian.jira.com/issues/KLVL_124")
-            
-    })
-    public void testMultipleIssues() {
-        // your code here
-    }
-    
+  @Test
+  @Issue("https://atlassian.jira.com/issues/KLVL_123")
+  public void testIssue() {
+    // your code here
+  }
+
 }
 ```
 
+**Multiple issues:**
+```java
+package io.klvl.annotations;
 
-#### Issue pattern
+public class IssueTest {
 
+  @Test(enabled = false)
+  @Issues({
+          @Issue("https://atlassian.jira.com/issues/KLVL_123"),
+          @Issue("https://atlassian.jira.com/issues/KLVL_124")
+
+  })
+  public void testMultipleIssues() {
+    // your code here
+  }
+
+}
+```
+
+**Issue pattern:**
 * Follow [Allure properties](#allure-properties) section to configure link pattern  
 * Mark test methods with the `@Issue` annotation
+
 ```java
-package io.klvl.testinfo;
+package io.klvl.annotations;
 
 public class IssueTest {
-    
+
   @Test(enabled = false)
   @Issue("KLVL_1234")
   public void testIssuePattern() {
@@ -648,10 +654,8 @@ public class IssueTest {
 }
 ```
 
-
-#### Add issue dynamically
-
-Follow [Allure lifecycle/Additional Report Information/Issue](#issue-1) section for information.
+**Add issue dynamically:** follow [Allure lifecycle/Additional Report Information/Issue](#issue-1) section for 
+information.
 
 
 
@@ -659,31 +663,27 @@ Follow [Allure lifecycle/Additional Report Information/Issue](#issue-1) section 
 
 This section describes how to add link with a test management system symbol.
 
-
-#### Single TMS link
-
+**Single TMS link:**
 ```java
-package io.klvl.testinfo;
+package io.klvl.annotations;
 
 import io.qameta.allure.TmsLink;
 import org.testng.annotations.Test;
 
 public class TmsLinkTest {
 
-    @Test
-    @TmsLink("https://atlassian.jira.com/KLVL_123")
-    public void testTmsLink() {
-        // your code here
-    }
+  @Test
+  @TmsLink("https://atlassian.jira.com/KLVL_123")
+  public void testTmsLink() {
+    // your code here
+  }
 
 }
 ```
 
-
-#### Multiple TMS Links
-
+**Multiple TMS Links:**
 ```java
-package io.klvl.testinfo;
+package io.klvl.annotations;
 
 import io.qameta.allure.TmsLink;
 import io.qameta.allure.TmsLinks;
@@ -691,37 +691,36 @@ import org.testng.annotations.Test;
 
 public class TmsLinkTest {
 
-    @Test
-    @TmsLinks({
-            @TmsLink("https://atlassian.jira.com/KLVL_123"),
-            @TmsLink("https://atlassian.jira.com/KLVL_124")
+  @Test
+  @TmsLinks({
+          @TmsLink("https://atlassian.jira.com/KLVL_123"),
+          @TmsLink("https://atlassian.jira.com/KLVL_124")
 
-    })
-    public void testMultipleTmsLinks() {
-        // your code here
-    }
+  })
+  public void testMultipleTmsLinks() {
+    // your code here
+  }
 
 }
 ```
 
-
-#### TMS Link pattern
-
+**TMS Link pattern:**
 * Follow [Allure properties](#allure-properties) section to configure TMS link pattern  
-* Mark test methods with the `@TmsLink` annotation  
+* Mark test methods with the `@TmsLink` annotation
+
 ```java
-package io.klvl.testinfo;
+package io.klvl.annotations;
 
 import io.qameta.allure.TmsLink;
 import org.testng.annotations.Test;
 
 public class TmsLinkTest {
 
-    @Test
-    @TmsLink("KLVL_1234")
-    public void testTmsLinkPattern() {
-        // your code here
-    }
+  @Test
+  @TmsLink("KLVL_1234")
+  public void testTmsLinkPattern() {
+    // your code here
+  }
 
 }
 ```
@@ -734,7 +733,28 @@ public class TmsLinkTest {
 
 This section describes how to use allure features dynamically at a runtime.
 
-### Breakdown
+### Step
+
+```java
+package io.klvl.allurelifecycle;
+
+public class StepAsLambdaTest {
+
+  @Test
+  public void testStepAsLambda() {
+    step("Sign in", () -> {
+      openLoginPage();
+      typeEmail();
+      typePassword();
+      clickLoginButton();
+    });
+  }
+}
+```
+
+
+
+### Epic, Feature and story
 
 ```java
 package io.klvl.allurelifecycle;
@@ -754,31 +774,9 @@ public class TestBreakdownTest {
 
 
 
-### Steps
+### Description
 
-```java
-package io.klvl.allurelifecycle;
-
-public class StepAsLambdaTest {
-
-    @Test
-    public void testStepAsLambda() {
-        step("Sign in", () -> {
-            openLoginPage();
-            typeEmail();
-            typePassword();
-            clickLoginButton();
-        });
-    }
-}
-```
-
-
-
-### Additional test information
-
-#### Description
-
+**Add simple description:**
 ```java
 package io.klvl.allurelifecycle;
 
@@ -795,6 +793,7 @@ public class AdditionalTestInformationTest {
 }
 ```
 
+**Add HTML description:**
 ```java
 package io.klvl.allurelifecycle;
 
@@ -814,7 +813,8 @@ public class AdditionalTestInformationTest {
 ```
 
 
-#### Link
+
+### Link
 
 ```java
 package io.klvl.allurelifecycle;
@@ -834,7 +834,8 @@ public class AdditionalTestInformationTest {
 ```
 
 
-#### Issue
+
+### Issue
 
 ```java
 package io.klvl.allurelifecycle;
