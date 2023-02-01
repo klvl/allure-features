@@ -26,6 +26,7 @@ This repository contains usages examples of [allure-report](https://github.com/a
   * [Link](#link)
   * [Issue](#issue)
   * [TMS Link](#tms-link)
+  * [Attachment](#attachment)
 * [Allure lifecycle](#allure-lifecycle)
   * [Step](#step-1)
   * [Epic, Feature, Story and Suite](#epic-feature-story-and-suite)
@@ -33,6 +34,7 @@ This repository contains usages examples of [allure-report](https://github.com/a
   * [Link](#link-1)
   * [Issue](#issue-1)
   * [TMS Link](#tms-link-1)
+  * [Attachment](#attachment-1)
 
 
 
@@ -718,6 +720,35 @@ public class TmsLinkTest {
 
 
 
+### Attachment
+
+The attachment type is a [MIME type](https://mimetype.io/all-types/).
+
+```java
+package io.klvl.annotations;
+
+import io.qameta.allure.Attachment;
+import org.testng.annotations.Test;
+
+import java.nio.charset.StandardCharsets;
+
+public class AttachmentTest {
+    
+    @Test
+    public void testJsonAttachment() {
+        attachJsonAsByte("{ " +
+                "\"user\": \"klvl\", " +
+                "\"type\": \"attached\" " +
+                "}");
+    }
+
+    @Attachment(value = "json-attachment", type = "application/json", fileExtension = ".json")
+    public byte[] attachJsonAsByte(String content) {
+        return content.getBytes(StandardCharsets.UTF_8);
+    }
+}
+```
+
 
 
 ## Allure lifecycle
@@ -858,5 +889,40 @@ public class TmsLinkTest {
         Allure.tms("KLVL-123", "https://atlassian.jira.com/KLVL-123");
     }
 
+}
+```
+
+
+
+### Attachment
+
+```java
+package io.klvl.allurelifecycle;
+
+import io.qameta.allure.Allure;
+import org.testng.annotations.Test;
+
+public class AttachmentTest {
+    
+    @Test
+    public void testSimpleAttach() {
+        Allure.attachment("file-name", "file content");
+    }
+
+    @Test
+    public void testAddAttachment() {
+        Allure.addAttachment("file-name", "file-contant");
+    }
+
+    @Test
+    public void testAddAttachmentWithType() {
+        Allure.addAttachment("file-name", "application/json", "{}");
+    }
+
+    @Test
+    public void testAddAttachmentWithExtension() {
+        Allure.addAttachment("file-name", "application/json", "{}", ".json");
+    }
+    
 }
 ```
