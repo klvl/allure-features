@@ -27,6 +27,7 @@ This repository contains usages examples of [allure-report](https://github.com/a
   * [Issue](#issue)
   * [TMS Link](#tms-link)
   * [Attachment](#attachment)
+  * [Parameters](#parameters)
 * [Allure lifecycle](#allure-lifecycle)
   * [Step](#step-1)
   * [Epic, Feature, Story and Suite](#epic-feature-story-and-suite)
@@ -35,6 +36,7 @@ This repository contains usages examples of [allure-report](https://github.com/a
   * [Issue](#issue-1)
   * [TMS Link](#tms-link-1)
   * [Attachment](#attachment-1)
+  * [Parameters](#parameters-1)
 
 
 
@@ -750,6 +752,37 @@ public class AttachmentTest {
 ```
 
 
+### Parameters
+
+```java
+package io.klvl.annotations;
+
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+public class ParametersTest {
+
+    @DataProvider
+    public Object[][] provideTestData() {
+        return new Object[][] {
+                { 1, "klvl" },
+                { 2, "vznd" }
+        };
+    }
+
+    @Test(dataProvider = "provideTestData")
+    @Parameters({"id", "userName"})
+    public void testParameters(int id, String userName) {
+        // your code here
+    }
+
+}
+```
+
+
+
+
 
 ## Allure lifecycle
 
@@ -924,5 +957,26 @@ public class AttachmentTest {
         Allure.addAttachment("file-name", "application/json", "{}", ".json");
     }
     
+}
+```
+
+
+### Parameters
+
+```java
+package io.klvl.allurelifecycle;
+
+import io.qameta.allure.Allure;
+import org.testng.annotations.Test;
+
+public class ParametersTest {
+
+    @Test
+    public void testParameters() {
+        Allure.parameter("name", "klvl");
+        Allure.parameter("age", 25);
+        // your code here
+    }
+
 }
 ```
