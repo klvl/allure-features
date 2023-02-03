@@ -37,6 +37,8 @@ This repository contains usages examples of [allure-report](https://github.com/a
   * [TMS Link](#tms-link-1)
   * [Attachment](#attachment-1)
   * [Parameters](#parameters-1)
+* [Additional report information](#additional-report-information)
+  * [History Trend](#history-trend)
 
 
 
@@ -980,3 +982,21 @@ public class ParametersTest {
 
 }
 ```
+
+
+
+
+
+## Additional report information
+
+### History Trend
+
+1. Run a test
+2. Generate a report
+3. Save `allure-report/history` folder
+4. Run another test
+5. Move saved `allure-report/hisory` folder to the `allure-result` folder
+6. Generate a report
+
+The `allure-report/history` folder should be saved each time when report is generated to move it to the 
+`allure-results` folder before the next report generation.
