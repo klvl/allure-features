@@ -22,4 +22,9 @@
             <package name="io.klvl.allurelifecycle"/>
         </packages>
     </test>
+    <test name="Additional report information">
+        <packages>
+            <package name="io.klvl.reportinfo"/>
+        </packages>
+    </test>
 </suite>

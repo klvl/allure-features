@@ -16,6 +16,7 @@
         <allure-testng.version>2.20.1</allure-testng.version>
         <aspectj.version>1.9.19</aspectj.version>
         <maven-surefire-plugin.version>3.0.0-M8</maven-surefire-plugin.version>
+        <maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
         <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
     </properties>
 
@@ -55,6 +56,30 @@
                         <version>${aspectj.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>copy-categories</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>allure-results</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/test/resources/</directory>
+                                    <includes>
+                                        <include>categories.json</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>

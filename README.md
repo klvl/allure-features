@@ -39,6 +39,7 @@ This repository contains usages examples of [allure-report](https://github.com/a
   * [Parameters](#parameters-1)
 * [Additional report information](#additional-report-information)
   * [History Trend](#history-trend)
+  * [Categories](#categories)
 
 
 
@@ -1000,3 +1001,41 @@ public class ParametersTest {
 
 The `allure-report/history` folder should be saved each time when report is generated to move it to the 
 `allure-results` folder before the next report generation.
+
+
+
+
+
+## Categories
+
+1. Add `categories.json` file to the `src/test/resources` folder
+    ```json
+    [
+      {
+        "name": "Response status code mismatch",
+        "matchedStatuses": ["failed"],
+        "messageRegex": ".*The status code.*"
+      },
+      {
+        "name": "All Failed Tests",
+        "matchedStatuses": ["failed"]
+      },
+      {
+        "name": "Broken tests",
+        "matchedStatuses": ["broken"]
+      },
+      {
+        "name": "Known issues",
+        "matchedStatuses": ["unknown"]
+      }
+    ]
+    ```
+2. Copy `categories.json` file to the `allure-results` directory using [maven-resources-plugin](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin):
+3. Run tests
+    ```shell
+    mvn clean test
+    ```
+4. Generate report
+```shell
+allure serve target/allure-results
+```

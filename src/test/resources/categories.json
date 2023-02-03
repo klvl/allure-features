@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Response status code mismatch",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*The status code.*"
+  },
+  {
+    "name": "All Failed Tests",
+    "matchedStatuses": ["failed"]
+  },
+  {
+    "name": "Broken tests",
+    "matchedStatuses": ["broken"]
+  },
+  {
+    "name": "Known issues",
+    "matchedStatuses": ["unknown"]
+  }
+]
