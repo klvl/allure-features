@@ -40,6 +40,7 @@ This repository contains usages examples of [allure-report](https://github.com/a
 * [Additional report information](#additional-report-information)
   * [History Trend](#history-trend)
   * [Categories](#categories)
+  * [Environments](#en)
 
 
 
@@ -1004,9 +1005,7 @@ The `allure-report/history` folder should be saved each time when report is gene
 
 
 
-
-
-## Categories
+### Categories
 
 1. Add `categories.json` file to the `src/test/resources` folder
     ```json
@@ -1030,12 +1029,31 @@ The `allure-report/history` folder should be saved each time when report is gene
       }
     ]
     ```
-2. Copy `categories.json` file to the `allure-results` directory using [maven-resources-plugin](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin):
+2. Copy `categories.json` file to the `allure-results` directory using [maven-resources-plugin](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin)
 3. Run tests
     ```shell
     mvn clean test
     ```
 4. Generate report
-```shell
-allure serve target/allure-results
-```
+    ```shell
+    allure serve target/allure-results
+    ```
+
+
+
+### Environments
+
+1. Add `environment.properties` file to `src/test/resources` directory
+    ```properties
+    Browser=Chrome
+    Browser.Version=63.0
+    ```
+2. Copy `environment.properties` file to the `allure-results` directory using [maven-resources-plugin](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin)
+3. Run tests
+    ```shell
+    mvn clean test
+    ```
+4. Generate report
+    ```shell
+    allure serve target/allure-results
+    ```

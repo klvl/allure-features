@@ -68,12 +68,30 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>allure-results</outputDirectory>
+                            <outputDirectory>target/allure-results</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>src/test/resources/</directory>
                                     <includes>
                                         <include>categories.json</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-environments</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/allure-results</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/test/resources/</directory>
+                                    <includes>
+                                        <include>environment.properties</include>
                                     </includes>
                                 </resource>
                             </resources>
