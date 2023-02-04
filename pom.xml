@@ -62,7 +62,7 @@
                 <version>${maven-resources-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>copy-categories</id>
+                        <id>copy-allure-files</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -74,24 +74,8 @@
                                     <directory>src/test/resources/</directory>
                                     <includes>
                                         <include>categories.json</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-environments</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/allure-results</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/test/resources/</directory>
-                                    <includes>
                                         <include>environment.properties</include>
+                                        <include>executor.json</include>
                                     </includes>
                                 </resource>
                             </resources>

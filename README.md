@@ -40,7 +40,8 @@ This repository contains usages examples of [allure-report](https://github.com/a
 * [Additional report information](#additional-report-information)
   * [History Trend](#history-trend)
   * [Categories](#categories)
-  * [Environments](#en)
+  * [Environments](#environments)
+  * [Executor](#executor)
 
 
 
@@ -1049,6 +1050,33 @@ The `allure-report/history` folder should be saved each time when report is gene
     Browser.Version=63.0
     ```
 2. Copy `environment.properties` file to the `allure-results` directory using [maven-resources-plugin](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin)
+3. Run tests
+    ```shell
+    mvn clean test
+    ```
+4. Generate report
+    ```shell
+    allure serve target/allure-results
+    ```
+
+
+
+### Executor
+
+1. Add `executor.json` file to `src/test/resources` directory
+    ```json
+    {
+    "name": "Jenkins",
+    "type": "jenkins",
+    "url": "http://example.org",
+    "buildOrder": 7,
+    "buildName": "#7-regression-tests",
+    "buildUrl": "http://example.org/build#7",
+    "reportUrl": "http://example.org/build#7/AllureReport",
+    "reportName": "Demo allure report"
+    }
+    ```
+2. Copy `executor.json` file to the `allure-results` directory using [maven-resources-plugin](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin)
 3. Run tests
     ```shell
     mvn clean test

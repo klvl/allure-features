@@ -1,0 +1,10 @@
+{
+  "name": "Jenkins",
+  "type": "jenkins",
+  "url": "http://example.org",
+  "buildOrder": 7,
+  "buildName": "#7-regression-tests",
+  "buildUrl": "http://example.org/build#7",
+  "reportUrl": "http://example.org/build#7/AllureReport",
+  "reportName": "Demo allure report"
+}
