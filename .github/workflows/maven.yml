@@ -27,7 +27,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Run tests
+    - name: Tests
       continue-on-error: true
       run: mvn clean test
 

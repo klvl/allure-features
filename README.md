@@ -1,4 +1,6 @@
-# The most of the Allure report
+# The most of the Allure report 
+
+[![Run tests](https://github.com/klvl/most-of-allure/actions/workflows/maven.yml/badge.svg)](https://github.com/klvl/most-of-allure/actions/workflows/maven.yml)
 
 This repository contains usages examples of [allure-report](https://github.com/allure-framework/allure2) features.
 
