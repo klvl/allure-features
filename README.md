@@ -44,7 +44,8 @@ This repository contains usages examples of [allure-report](https://github.com/a
   * [Categories](#categories)
   * [Environments](#environments)
   * [Executor](#executor)
-* [Allure Server](#allure-server)
+* [Allure server](#allure-server)
+* [Allure revision](#allure-revision)
 
 
 
@@ -1097,3 +1098,13 @@ The `allure-report/history` folder should be saved each time when report is gene
 
 There is a possibility to store all allure reports in a one place. 
 The [allure server](https://github.com/kochetkov-ma/allure-server) should help with this.
+
+
+
+
+
+## Allure revision
+
+You may want to get raw data of allure report and have it available at some accessible place. The 
+[allure-revision](https://github.com/klvl/allure-revision) tool parses the allure-report and uploads results to a 
+Google spreadsheet.
