@@ -1,6 +1,6 @@
-# The most of the Allure report 
+# Allure report features 
 
-[![Run tests](https://github.com/klvl/most-of-allure/actions/workflows/maven.yml/badge.svg)](https://github.com/klvl/most-of-allure/actions/workflows/maven.yml)
+[![Run tests](https://github.com/klvl/allure-features/actions/workflows/maven.yml/badge.svg)](https://github.com/klvl/allure-features/actions/workflows/maven.yml)
 
 This repository contains usages examples of [allure-report](https://github.com/allure-framework/allure2) features.
 
@@ -66,7 +66,7 @@ Follow the [Allure CLI/Installation](#installation) section for the installation
 
 * Clone the project  
 ```shell
-git clone git@github.com:klvl/most-of-allure.git
+git clone git@github.com:klvl/allure-features.git
 ```
 * Run test  
 ```shell
