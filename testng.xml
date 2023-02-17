@@ -5,6 +5,11 @@
             <class name="io.klvl.SimpleTest"/>
         </classes>
     </test>
+    <test name="Broken test">
+        <classes>
+            <class name="io.klvl.BrokenTest"/>
+        </classes>
+    </test>
     <test name="Descriptive names">
         <packages>
             <package name="io.klvl.descriptive"/>
