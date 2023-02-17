@@ -10,6 +10,11 @@
             <class name="io.klvl.BrokenTest"/>
         </classes>
     </test>
+    <test name="Skipped test">
+        <classes>
+            <class name="io.klvl.SkippedTest"/>
+        </classes>
+    </test>
     <test name="Descriptive names">
         <packages>
             <package name="io.klvl.descriptive"/>
